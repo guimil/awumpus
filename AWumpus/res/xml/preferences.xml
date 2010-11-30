@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-<PreferenceCategory android:title="User Settings" android:summary="Settings will be applied when starting a new game.">
+<PreferenceCategory android:title="Game Settings" android:summary="Settings will be applied when starting a new game.">
 
 <CheckBoxPreference android:key="canSmellWumpus" android:title="Smellable Wumpus" android:defaultValue="true" android:summary="Player can smell Wumpus when in an adjacent room."></CheckBoxPreference>
 <CheckBoxPreference android:key="enableDebug" android:title="Debug Mode" android:defaultValue="true" android:summary="Show debug messages."></CheckBoxPreference>
