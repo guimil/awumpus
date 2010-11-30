@@ -1,90 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_name">AWumpus</string>
-<string name="welcome">Welcome to AWumpus!</string>
-<string name="shoot">Shoot</string>
-<string name="move">Move</string>
-<string name="startGame">Start Game</string>
-<string name="defaultLogMessage">Press &quot;Start Game&quot; to begin.</string>
-<color name="headerBackgroundColor">#777777</color>
-<color name="headerForegroundColor">#63EF11</color>
-<string name="clearLog">Clear Log</string>
-<string name="stopGame">End Game</string>
-<color name="buttonBarColor">#CCCCCC</color>
-<string name="arrowsLabel">Arrows left:</string>
-<string name="moveLabel">Move #</string>
-<string name="smellableDebug">Player can smell the Wumpus.</string>
-<string name="debugMessage">Debug mode enabled.</string>
-<color name="eventLogTextColor">#EEEEEE</color>
-<color name="eventLogBackground">#222222</color>
-<color name="outOfArrowsFontColor">#FF2222</color>
-<color name="normalArrowsFontColor">#C7C7C7</color>
-<string name="invalidInput">Invalid input!</string>
-<string name="emptyInput">You must enter a destination room.</string>
-<string name="shotArrow">You shot an arrow into room</string>
-<string name="outOfArrows">You\'re out of arrows!</string>
-<string name="moveAlertTitle">Move where?</string>
-<string name="shootAlertTitle">Aim where?</string>
-<string name="room">Room</string>
-<string name="deathByWumpus">The Wumpus got you!</string>
-<string name="gameEnded">Game ended</string>
-<string name="elapsed">elapsed</string>
-<string name="adjacentRooms">Adjacent rooms:</string>
-<string name="wumpusNearby">You smell the Wumpus!</string>
-<string name="batNearby">A bat is nearby.</string>
-<string name="pitNearby">You feel a draft...</string>
-<string name="warningFailure">Abnormal exit from warning sequence!</string>
-<string name="locationsSet">Locations set.</string>
-<string name="bumpedTheWumpus">You bumped the Wumpus!</string>
-<string name="deathByPit">You fell in a pit.</string>
-<string name="batSnatch">A bat snatched you up.</string>
-<string name="newGameStarted">New game started at</string>
-<string name="youAreInRoom">\nYou are in room</string>
-<string name="yes">Yes</string>
-<string name="no">No</string>
-<string name="reshuffleMapAlertTitle">Re-shuffle map?</string>
-<string name="malformedMaxLogLinesPref">Using default scrollback limit</string>
 
+	<string name="app_name">AWumpus</string>
+	<string name="welcome">Welcome to AWumpus!</string>
+	<string name="shoot">Shoot</string>
+	<string name="move">Move</string>
+	<string name="startGame">Start Game</string>
+	<string name="defaultLogMessage">Press &quot;Start Game&quot; to begin.</string>
+	<color name="headerBackgroundColor">#777777</color>
+	<color name="headerForegroundColor">#63EF11</color>
+	<string name="clearLog">Clear Log</string>
+	<string name="stopGame">End Game</string>
+	<color name="buttonBarColor">#CCCCCC</color>
+	<string name="arrowsLabel">Arrows left:</string>
+	<string name="moveLabel">Move #</string>
+	<string name="smellableDebug">Player can smell the Wumpus.</string>
+	<string name="debugMessage">Debug mode enabled.</string>
+	<color name="eventLogTextColor">#EEEEEE</color>
+	<color name="eventLogBackground">#222222</color>
+	<color name="outOfArrowsFontColor">#FF2222</color>
+	<color name="normalArrowsFontColor">#C7C7C7</color>
+	<string name="invalidInput">Invalid input!</string>
+	<string name="emptyInput">You must enter a destination room.</string>
+	<string name="shotArrow">You shot an arrow into room</string>
+	<string name="outOfArrows">You\'re out of arrows!</string>
+	<string name="moveAlertTitle">Move where?</string>
+	<string name="shootAlertTitle">Aim where?</string>
+	<string name="room">Room</string>
+	<string name="deathByWumpus">The Wumpus got you!</string>
+	<string name="gameEnded">Game ended</string>
+	<string name="elapsed">elapsed</string>
+	<string name="adjacentRooms">Adjacent rooms:</string>
+	<string name="wumpusNearby">You smell the Wumpus!</string>
+	<string name="batNearby">A bat is nearby.</string>
+	<string name="pitNearby">You feel a draft...</string>
+	<string name="warningFailure">Abnormal exit from warning sequence!</string>
+	<string name="locationsSet">Locations set.</string>
+	<string name="bumpedTheWumpus">You bumped the Wumpus!</string>
+	<string name="deathByPit">You fell in a pit.</string>
+	<string name="batSnatch">A bat snatched you up.</string>
+	<string name="newGameStarted">New game started at</string>
+	<string name="youAreInRoom">\nYou are in room</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="reshuffleMapAlertTitle">Re-shuffle map?</string>
+	<string name="malformedMaxLogLinesPref">Using default scrollback limit</string>
 
+	<string name="aboutText">This is an about screen.</string>
+	<string name="aboutTitle">About AWumpus</string>
+	<string name="missed">You missed! The Wumpus stirs...</string>
+	<string name="confirmEndGameAlertTitle">Are you sure you want to end the game?</string>
+	<string name="pitsNearby">You feel multiple drafts.</string>
+	<string name="batsNearby">You hear multiple bats nearby.</string>
+	<string name="confirmClearLogAlertTitle">Are you sure you want to clear the event log?</string>
+	<string name="highScoresText">High scores go here</string>
 
-<string name="aboutText">This is an about screen.</string>
-<string name="aboutTitle">About AWumpus</string>
-<string name="missed">You missed! The Wumpus stirs...</string>
-<string name="confirmEndGameAlertTitle">Are you sure you want to end the game?</string>
-<string name="pitsNearby">You feel multiple drafts.</string>
-<string name="batsNearby">You hear multiple bats nearby.</string>
-<string name="confirmClearLogAlertTitle">Are you sure you want to clear the event log?</string>
-<string name="highScoresText">High scores go here</string>
-<string-array name="prefDifficultyLabels">
-<item>Nearly impossible</item>
-<item>Hard</item>
-<item>Normal</item>
-<item>Easy</item>
-<item>Boring</item>
-</string-array>
-
-<string-array name="prefDifficultyValues">
-<item>1</item>
-<item>2</item>
-<item>3</item>
-<item>4</item>
-<item>5</item>
-</string-array>
-
-
-    <string-array name="entries">  
-        <item>1 minute</item>  
-        <item>2 minutes</item>  
-        <item>5 minute</item>  
-        <item>10 minutes</item>  
-    </string-array>  
-    <string-array name="entryValues">  
-        <item>1</item>  
-        <item>2</item>  
-        <item>5</item>  
-        <item>10</item>  
-    </string-array>  
+	<string-array name="entries">
+		<item>Nearly impossible</item>
+		<item>Hard</item>
+		<item>Normal</item>
+		<item>Easy</item>
+		<item>Boring</item>
+	</string-array>
+	<string-array name="entryValues">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+	</string-array>
 
 
 </resources>

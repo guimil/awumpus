@@ -9,7 +9,7 @@
 <EditTextPreference android:inputType="phone" android:summary="Maximum number of event log lines. Must be between 30 and 1000." android:title="Scrollback limit" android:key="maxLogLines" android:defaultValue="300"></EditTextPreference>
 <CheckBoxPreference android:summary="When map is reshuffled, clear the event log." android:title="Clear log when map is reshuffled" android:defaultValue="true" android:key="clearLogOnReshuffle"></CheckBoxPreference>
 <CheckBoxPreference android:summary="Bats relocate to a new (random) room after moving the player." android:title="Mobile bats" android:defaultValue="false" android:key="mobileBats"></CheckBoxPreference>
-<ListPreference android:key="testKey" android:title="stuff" android:summary="testing" android:entries="@array/entries" android:entryValues="@array/entryValues"></ListPreference>
+<ListPreference android:key="difficulty" android:title="Difficulty" android:summary="Game difficulty." android:entries="@array/entries" android:entryValues="@array/entryValues"></ListPreference>
 
 </PreferenceCategory>
 </PreferenceScreen>
