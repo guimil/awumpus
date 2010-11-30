@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory android:title="User Settings" android:summary="Settings will be applied when starting a new game.">
+
+<CheckBoxPreference android:key="canSmellWumpus" android:title="Smellable Wumpus" android:defaultValue="true" android:summary="Player can smell Wumpus when in an adjacent room."></CheckBoxPreference>
+<CheckBoxPreference android:key="enableDebug" android:title="Debug Mode" android:defaultValue="true" android:summary="Show debug messages."></CheckBoxPreference>
+<CheckBoxPreference android:key="mustHaveArrows" android:title="Must have arrows" android:defaultValue="true" android:summary="Player dies upon running out of arrows."></CheckBoxPreference>
+<EditTextPreference android:inputType="phone" android:summary="Maximum number of event log lines. Must be between 30 and 1000." android:title="Scrollback limit" android:key="maxLogLines" android:defaultValue="300"></EditTextPreference>
+<CheckBoxPreference android:summary="When map is reshuffled, clear the event log." android:title="Clear log when map is reshuffled" android:defaultValue="true" android:key="clearLogOnReshuffle"></CheckBoxPreference>
+<CheckBoxPreference android:summary="Bats relocate to a new (random) room after moving the player." android:title="Mobile bats" android:defaultValue="false" android:key="mobileBats"></CheckBoxPreference>
+<ListPreference android:key="testKey" android:title="stuff" android:summary="testing" android:entries="@array/entries" android:entryValues="@array/entryValues"></ListPreference>
+
+</PreferenceCategory>
+</PreferenceScreen>
