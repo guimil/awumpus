@@ -19,14 +19,14 @@ public class Circle {
 //								1.0f, 1.0f, 0.0f 	//Top Right
 //												};
 	private float points[] = new float[360*3];
-	private int radius = 1;
+	private double radius;
 	
 	/**
 	 * The Circle constructor.
 	 * 
 	 * Initiate the buffers.
 	 */
-	public Circle() {
+	public Circle(double radius) {
 		//
 //		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(points.length * 4);
@@ -34,6 +34,7 @@ public class Circle {
 		vertexBuffer = byteBuf.asFloatBuffer();
 //		vertexBuffer.put(vertices);
 		
+		this.radius = radius;
 		
 		int i = 0;
 		
@@ -58,9 +59,10 @@ public class Circle {
 	 * 
 	 * @param gl - The GL context
 	 */
-	public void draw(GL10 gl) {
+	public void draw(GL10 gl, float red, float blue, float green, float alpha) {
 		//set the color
-		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+//		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		gl.glColor4f(red, blue, green, alpha);
 		
 		//Set the face rotation
 		gl.glFrontFace(GL10.GL_CW);

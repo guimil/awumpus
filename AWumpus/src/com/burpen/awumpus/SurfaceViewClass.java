@@ -3,20 +3,91 @@ package com.burpen.awumpus;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
+import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.view.MotionEvent;
 
-public class SurfaceViewClass implements Renderer {
+public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 
-	private Circle circle1, circle2;
+	private Circle[] circles;
+	
+	/** The Activity Context */
+	private Context context;
+	
+	private long timeOfLastEvent = -1;
+	
+	public static float multi = 2;
+	
+	public static int width, height;
+	
+	public int markedX, markedY = -1;
+	
+	private double radius = 0.5;
+	
+	private static float x, y;
 	
 	/**
 	 * Instance the circle objects
 	 */
-	public SurfaceViewClass() {
+	public SurfaceViewClass(Context context, int width, int height) {
+		super(context);
+		
+		this.width = width;
+		this.height = height;
+		circles = new Circle[width * height];
+		
+		//Set this as Renderer
+		this.setRenderer(this);
+		this.setFocusable(true);
+		this.setFocusableInTouchMode(true);
+		
+		this.setRenderMode(RENDERMODE_WHEN_DIRTY);
+		
+		//Request focus, otherwise buttons won't react
+		if (this.isFocusable()) {
+			System.out.println("OK 0");
+		} else {
+			System.out.println("FAIL 0");
+		}
+		
+		if (this.isFocusableInTouchMode()) {
+			System.out.println("OK 0.5");
+		} else {
+			System.out.println("FAIL 0.5");
+		}
+		
+		if (this.requestFocus()) {
+			System.out.println("OK 1");
+		} else {
+			System.out.println("FAIL 1");
+		}
+		
+		if (this.isFocused()) {
+			System.out.println("OK 1.5");
+		} else {
+			System.out.println("FAIL 1.5");
+		}
+		
+		if (this.requestFocusFromTouch()) {
+			System.out.println("OK 2");
+		} else {
+			System.out.println("FAIL 2");
+		}
+		
+		if (this.isFocused()) {
+			System.out.println("OK 2.5");
+		} else {
+			System.out.println("FAIL 2.5");
+		}
+		
 		// TODO make array of circles according to a given size
-		circle1 = new Circle();
-		circle2 = new Circle();
+		for (int i=0; i<width * height; i++) {
+			circles[i] = new Circle(radius);
+		}
+		
+		this.context = context;
 	}
 
 	/**
@@ -48,11 +119,26 @@ public class SurfaceViewClass implements Renderer {
 		 * we fire their own drawing methods on
 		 * the current instance
 		 */
-		gl.glTranslatef(0.0f, -1.2f, -6.0f);	//Move down 1.2 Unit And Into The Screen 6.0
-		circle1.draw(gl);						//Draw a circle
+//		gl.glTranslatef(0.0f, 0.0f, (float)(-1.0 * multi));
+		gl.glTranslatef(-5.0f, 0.0f, (float)(-15));
 		
-		gl.glTranslatef(0.0f, 2.5f, 0.0f);		//Move up 2.5 Units
-		circle2.draw(gl);						//Draw a circle	
+		for (int y=0; y<height; y++) {
+			int x=0;
+			for (; x<width; x++) {
+				//move over one spot horizontally
+				gl.glTranslatef((float)(radius*2), 0.0f, 0.0f);
+				if (markedX == x && markedY == y) {
+					circles[x + y].draw(gl, 1.0f, 0.0f, 0.0f, 1.0f);
+				} else {
+					circles[x + y].draw(gl, 1.0f, 1.0f, 1.0f, 1.0f);
+				}
+				
+			}
+			//go back to the left and move down one spot vertically
+			gl.glTranslatef(-(float)(x * radius*2), -(float)(radius*2), 0.0f);
+		}
+		
+//		System.out.println("drew a frame with player at " + markedX + ", " + markedY);
 	}
 
 	/**
@@ -72,5 +158,43 @@ public class SurfaceViewClass implements Renderer {
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
 		gl.glLoadIdentity(); 					//Reset The Modelview Matrix
+	}
+	
+	/**
+	 * Override the touch screen listener.
+	 * 
+	 * React to moves and presses on the touchscreen.
+	 */
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			System.out.println("time of last: " + timeOfLastEvent + ", time of current: " + event.getEventTime() + ", span: " + (event.getEventTime() - timeOfLastEvent));
+	//		if (timeOfLastEvent != -1) {
+				if (event.getEventTime() - timeOfLastEvent <= 500) {
+					System.out.println("double tap detected");
+					timeOfLastEvent = -1;
+				} else {
+					timeOfLastEvent = event.getEventTime();
+				}
+	//		} else {
+	//			timeOfLastEvent = event.getEventTime();
+	//		}
+		}
+		
+		
+		//We handled the event
+		return true;
+	}
+	
+	public void highlightSpot(int x, int y, int type) {
+		markedX = x;
+		markedY = y;
+		
+		this.requestRender();
+	}
+
+	public void highlightSpot(int loc, int type) {
+		highlightSpot(loc%width, loc/width, type);
+		
 	}
 }

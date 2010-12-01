@@ -32,7 +32,7 @@ public class AWumpus extends Activity {
 	//game prefs
 	private SharedPreferences preferences;
 	private static boolean useDebug, canSmellWumpus, mustHaveArrows, clearLogOnReshuffle, mobileBats;
-	private static int maxLogLines;
+	private static int maxLogLines, difficulty;
 	
 	//views
 	private TextView textView, arrowView, moveView;
@@ -40,6 +40,8 @@ public class AWumpus extends Activity {
 	
 	/** The OpenGL View */
 	private GLSurfaceView glSurface;
+	
+	private SurfaceViewClass svc;
 	
 	//buttons
 	private static Button clearLogButton, startGameButton, shootButton, moveButton;
@@ -98,7 +100,8 @@ public class AWumpus extends Activity {
 		
 		Grid grid = new Grid(WIDTH, HEIGHT);
 		
-		grid.deleteNode(5);
+		// TODO this fails
+//		grid.deleteNode(5);
 		
 		for (int i=0; i<MAX_ROOMS; i++) {
 			if (grid.isAvailable(i)) {
@@ -134,7 +137,8 @@ public class AWumpus extends Activity {
 		//Create an Instance with this Activity
 		glSurface = (GLSurfaceView) findViewById(R.id.SurfaceView01);
 		//Set our own Renderer
-		glSurface.setRenderer(new SurfaceViewClass());
+		svc = new SurfaceViewClass(this, WIDTH, HEIGHT);
+		glSurface.setRenderer(svc);
 		//Set the GLSurface as View to this Activity
 //		setContentView(glSurface);
 //		surfaceView = glSurface;
@@ -215,10 +219,10 @@ public class AWumpus extends Activity {
 		tmp = map.get(location[PLAYER]);
 		Arrays.sort(tmp);
 		
-		final CharSequence[] items = { getString(R.string.room) + " " + tmp[0],
-				getString(R.string.room) + " " + tmp[1],
-				getString(R.string.room) + " " + tmp[2],
-				getString(R.string.room) + " " + tmp[3] };
+		final CharSequence[] items = new CharSequence[MAX_EDGES_PER_ROOM];
+		for (int i = 0; i<MAX_EDGES_PER_ROOM; i++) {
+			items[i] = getString(R.string.room) + " " + tmp[i];
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.moveAlertTitle);
@@ -525,6 +529,8 @@ public class AWumpus extends Activity {
 		mustHaveArrows = preferences.getBoolean("mustHaveArrows", true);
 		clearLogOnReshuffle = preferences.getBoolean("clearLogOnReshuffle", true);
 		mobileBats = preferences.getBoolean("mobileBats", false);
+		difficulty = Integer.parseInt(preferences.getString("difficulty", "1"));
+		SurfaceViewClass.multi = (float)difficulty*2;
 		
 		try {
 			maxLogLines = Integer.parseInt(preferences.getString("maxLogLines", "" + DEFAULT_MAX_LOG_LINES));
@@ -603,6 +609,8 @@ public class AWumpus extends Activity {
 	private void printInfo() {
 		settled = false;
 		while (!settled) {
+			svc.highlightSpot(location[PLAYER], 0);
+			
 			appendToEventLog(getString(R.string.youAreInRoom) + " " + location[PLAYER] + ".");
 			
 			checkForHazards();
