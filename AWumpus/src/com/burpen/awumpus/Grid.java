@@ -29,8 +29,28 @@ public class Grid {
 	}
 	
 	public int[] getConnectedNodes(int index) {
-		return new int[] { nodes[index].getNorth(), nodes[index].getEast(),
+		int allNodes[] = new int[] { nodes[index].getNorth(), nodes[index].getEast(),
 				nodes[index].getSouth(), nodes[index].getWest() };
+		int intact = 4;
+		for (int i=0; i<4; i++) {
+			if (allNodes[i] == -1) {
+				intact--;
+			}
+		}
+		
+		int intactNodes[] = new int[intact];
+		int pos = 0;
+		
+		for (int i=0; i<4; i++) {
+			if (allNodes[i] == -1) {
+				continue;
+			} else {
+				intactNodes[pos] = allNodes[i];
+				pos++;
+			}
+		}
+		
+		return intactNodes;
 	}
 	
 	private int findWestBoundary(int i) {
