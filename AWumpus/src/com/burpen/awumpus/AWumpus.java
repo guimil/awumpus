@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -36,6 +37,9 @@ public class AWumpus extends Activity {
 	//views
 	private TextView textView, arrowView, moveView;
 	private ScrollView scrollView;
+	
+	/** The OpenGL View */
+	private GLSurfaceView glSurface;
 	
 	//buttons
 	private static Button clearLogButton, startGameButton, shootButton, moveButton;
@@ -109,8 +113,11 @@ public class AWumpus extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+
+		
 		masterLog = "";
 		
+//		surfaceView = (SurfaceView) findViewById(R.id.SurfaceView01);
 		scrollView = (ScrollView) findViewById(R.id.ScrollView);
 		textView = (TextView) findViewById(R.id.TextView02);
 		arrowView = (TextView) findViewById(R.id.arrowView);
@@ -123,6 +130,14 @@ public class AWumpus extends Activity {
 		
 		// Initialize preferences
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		//Create an Instance with this Activity
+		glSurface = (GLSurfaceView) findViewById(R.id.SurfaceView01);
+		//Set our own Renderer
+		glSurface.setRenderer(new SurfaceViewClass());
+		//Set the GLSurface as View to this Activity
+//		setContentView(glSurface);
+//		surfaceView = glSurface;
 		
 		shootButton.setEnabled(false);
 		shootButton.setOnClickListener(new OnClickListener() {
