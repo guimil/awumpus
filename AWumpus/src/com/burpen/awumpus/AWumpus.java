@@ -20,8 +20,10 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -140,6 +142,14 @@ public class AWumpus extends Activity {
 		svc = new SurfaceViewClass(this, WIDTH, HEIGHT);
 		glSurface.setRenderer(svc);
 		glSurface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		glSurface.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				glSurface.requestRender();
+				return svc.handleTouchEvent(event);
+			}
+		});
 		
 		//Set the GLSurface as View to this Activity
 //		setContentView(glSurface);

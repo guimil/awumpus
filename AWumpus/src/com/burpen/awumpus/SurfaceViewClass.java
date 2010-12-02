@@ -24,11 +24,15 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 	
 	private double radius = 0.5;
 	
+	private float x, y, z;
+	
 	/**
 	 * Instance the circle objects
 	 */
 	public SurfaceViewClass(Context context, int width, int height) {
 		super(context);
+		
+		this.z = 2.25f;
 		
 		this.width = width;
 		this.height = height;
@@ -36,14 +40,6 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		
 		//Set this as Renderer
 		this.setRenderer(this);
-		this.setFocusable(true);
-		this.setFocusableInTouchMode(true);
-		
-		this.setRenderMode(RENDERMODE_WHEN_DIRTY);
-		
-		//Request focus, otherwise buttons won't react
-		this.requestFocus();		
-		this.requestFocusFromTouch();
 		
 		for (int i=0; i<width * height; i++) {
 			circles[i] = new Circle(radius);
@@ -82,7 +78,16 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		 * the current instance
 		 */
 //		gl.glTranslatef(0.0f, 0.0f, (float)(-1.0 * multi));
-		gl.glTranslatef(-5.0f, 5.0f, (float)(-15));
+		// TODO use more dynamic values according to grid size
+		if (z==5) {
+			gl.glTranslatef(-10.0f, 9.5f, (float)(-5 * z));
+		} else if (z==2.25) {
+			gl.glTranslatef(-4.5f, 3.5f, (float)(-5 * z));
+		} else if (z==1) {
+			gl.glTranslatef(-4f, 3.5f, (float)(-5 * z));
+		} else {
+			gl.glTranslatef(-5.0f, 5.5f, (float)(-5 * z));
+		}
 		
 		for (int y=0; y<height; y++) {
 			int x=0;
@@ -101,7 +106,7 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		}
 		
 		//debug output
-		System.out.println("drew a frame with player at " + markedX + ", " + markedY);
+//		System.out.println("drew a frame with player at " + markedX + ", " + markedY);
 //		System.out.println("drew a frame at " + System.currentTimeMillis());
 	}
 
@@ -124,18 +129,14 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		gl.glLoadIdentity(); 					//Reset The Modelview Matrix
 	}
 	
-	/**
-	 * Override the touch screen listener.
-	 * 
-	 * React to moves and presses on the touchscreen.
-	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean handleTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
-			System.out.println("time of last: " + timeOfLastEvent + ", time of current: " + event.getEventTime() + ", span: " + (event.getEventTime() - timeOfLastEvent));
+			System.out.println("x = " + event.getX() + ", y = " + event.getY());
+//			System.out.println("time of last: " + timeOfLastEvent + ", time of current: " + event.getEventTime() + ", span: " + (event.getEventTime() - timeOfLastEvent));
 	//		if (timeOfLastEvent != -1) {
-				if (event.getEventTime() - timeOfLastEvent <= 500) {
+				if (event.getEventTime() - timeOfLastEvent <= 300) {
 					System.out.println("double tap detected");
+					toggleZoom();
 					timeOfLastEvent = -1;
 				} else {
 					timeOfLastEvent = event.getEventTime();
@@ -150,11 +151,21 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		return true;
 	}
 	
+	private void toggleZoom() {
+		if (z == 2.25) {
+			z = 1;
+		} else if (z == 1) {
+			z = 5;
+		} else {
+			z = 2.25f;
+		}
+		this.requestRender();
+	}
+
 	public void highlightSpot(int x, int y, int type) {
 		markedX = x;
 		markedY = y;
 		
-//		this.requestRender();
 	}
 
 	public void highlightSpot(int loc, int type) {
