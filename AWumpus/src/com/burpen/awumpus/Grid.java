@@ -71,7 +71,7 @@ public class Grid {
 
 	private int findNorthBoundary(int i) {
 		if (isNorthEdge(i)) {
-			return (width * height - 1 - i);
+			return (width * height - i);
 		} else {
 			return i - width;
 		}

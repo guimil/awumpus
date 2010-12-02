@@ -32,7 +32,7 @@ public class AWumpus extends Activity {
 	//game prefs
 	private SharedPreferences preferences;
 	private static boolean useDebug, canSmellWumpus, mustHaveArrows, clearLogOnReshuffle, mobileBats;
-	private static int maxLogLines, difficulty;
+	private static int maxLogLines, difficulty, maxArrows;
 	
 	//views
 	private TextView textView, arrowView, moveView;
@@ -49,7 +49,7 @@ public class AWumpus extends Activity {
 	//constants
 	private static final int DEFAULT_MAX_LOG_LINES = 300;
 	private static final int WIDTH = 8;
-	private static final int HEIGHT = 3;
+	private static final int HEIGHT = 8;
 	private static final int MAX_ROOMS = HEIGHT * WIDTH;
 	private static final int MAX_EDGES_PER_ROOM = 4;
 	private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
@@ -60,7 +60,6 @@ public class AWumpus extends Activity {
 	private static final int PIT2 = 3;
 	private static final int BAT1 = 4;
 	private static final int BAT2 = 5;
-	private static final int MAX_ARROWS = 5;
 	private static final int MAX_ARROW_RANGE = 5;
 	
 	//game variables (non-preferences)
@@ -136,9 +135,12 @@ public class AWumpus extends Activity {
 		
 		//Create an Instance with this Activity
 		glSurface = (GLSurfaceView) findViewById(R.id.SurfaceView01);
+		
 		//Set our own Renderer
 		svc = new SurfaceViewClass(this, WIDTH, HEIGHT);
 		glSurface.setRenderer(svc);
+		glSurface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		
 		//Set the GLSurface as View to this Activity
 //		setContentView(glSurface);
 //		surfaceView = glSurface;
@@ -198,6 +200,20 @@ public class AWumpus extends Activity {
 		gameOver = true;
 		limitChanged = true;
     }
+    
+	@Override
+	public void onResume() {
+		super.onResume();
+		svc.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		svc.requestRender();
+	}
+
+	@Override
+	public void onPause() {
+		svc.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+		android.os.SystemClock.sleep(60);
+		super.onPause();
+	}
     
     private void move() {
 		if (!(chosenItem > -1 && chosenItem < MAX_EDGES_PER_ROOM)) {
@@ -292,7 +308,6 @@ public class AWumpus extends Activity {
 		alert = builder.create();
 	}
 	
-	// TODO shoot menu is broken currently
 	protected void createPromptRangeAlert() {
 		// TODO make dynamic based on max range
 		final CharSequence[] items = { "1", "2", "3", "4", "5" };
@@ -324,7 +339,8 @@ public class AWumpus extends Activity {
 		final int[] destinations = new int[] {
 				map.get(currentLocation)[0],
 				map.get(currentLocation)[1],
-				map.get(currentLocation)[2]
+				map.get(currentLocation)[2],
+				map.get(currentLocation)[3]
 		};
 		
     	if (pathSpecified > 2) {
@@ -404,12 +420,12 @@ public class AWumpus extends Activity {
 			moveWumpus();
 		}
 		
-		if (arrows == 0) {
+		if (arrows == 0 && !gameOver) {
 			arrowView.setTextColor(getResources().getColor(R.color.outOfArrowsFontColor));
 			appendToEventLog(R.string.outOfArrows);
-			appendToEventLog(R.string.deathByWumpus);
 			shootButton.setEnabled(false);
 			if (mustHaveArrows) {
+				appendToEventLog(R.string.deathByWumpus);
 				stopGame();
 			}
 		}
@@ -530,7 +546,12 @@ public class AWumpus extends Activity {
 		clearLogOnReshuffle = preferences.getBoolean("clearLogOnReshuffle", true);
 		mobileBats = preferences.getBoolean("mobileBats", false);
 		difficulty = Integer.parseInt(preferences.getString("difficulty", "1"));
-		SurfaceViewClass.multi = (float)difficulty*2;
+		maxArrows = Integer.parseInt(preferences.getString("maxArrows", "5"));
+		if (maxArrows < 1) {
+			maxArrows = 1;
+		} else if (maxArrows > 10) {
+			maxArrows = 10;
+		}
 		
 		try {
 			maxLogLines = Integer.parseInt(preferences.getString("maxLogLines", "" + DEFAULT_MAX_LOG_LINES));
@@ -575,7 +596,7 @@ public class AWumpus extends Activity {
 			setOldLocations();
 		}
 		
-		arrows = MAX_ARROWS;
+		arrows = maxArrows;
 		moveNumber = 1;
 		currentLocation = location[PLAYER];
 		arrowView.setTextColor(getResources().getColor(R.color.normalArrowsFontColor));
@@ -610,6 +631,7 @@ public class AWumpus extends Activity {
 		settled = false;
 		while (!settled) {
 			svc.highlightSpot(location[PLAYER], 0);
+			glSurface.requestRender();
 			
 			appendToEventLog(getString(R.string.youAreInRoom) + " " + location[PLAYER] + ".");
 			

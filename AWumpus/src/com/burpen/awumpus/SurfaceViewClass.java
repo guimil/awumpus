@@ -18,15 +18,11 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 	
 	private long timeOfLastEvent = -1;
 	
-	public static float multi = 2;
+	private int width, height;
 	
-	public static int width, height;
-	
-	public int markedX, markedY = -1;
+	private int markedX, markedY = -1;
 	
 	private double radius = 0.5;
-	
-	private static float x, y;
 	
 	/**
 	 * Instance the circle objects
@@ -46,43 +42,9 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		this.setRenderMode(RENDERMODE_WHEN_DIRTY);
 		
 		//Request focus, otherwise buttons won't react
-		if (this.isFocusable()) {
-			System.out.println("OK 0");
-		} else {
-			System.out.println("FAIL 0");
-		}
+		this.requestFocus();		
+		this.requestFocusFromTouch();
 		
-		if (this.isFocusableInTouchMode()) {
-			System.out.println("OK 0.5");
-		} else {
-			System.out.println("FAIL 0.5");
-		}
-		
-		if (this.requestFocus()) {
-			System.out.println("OK 1");
-		} else {
-			System.out.println("FAIL 1");
-		}
-		
-		if (this.isFocused()) {
-			System.out.println("OK 1.5");
-		} else {
-			System.out.println("FAIL 1.5");
-		}
-		
-		if (this.requestFocusFromTouch()) {
-			System.out.println("OK 2");
-		} else {
-			System.out.println("FAIL 2");
-		}
-		
-		if (this.isFocused()) {
-			System.out.println("OK 2.5");
-		} else {
-			System.out.println("FAIL 2.5");
-		}
-		
-		// TODO make array of circles according to a given size
 		for (int i=0; i<width * height; i++) {
 			circles[i] = new Circle(radius);
 		}
@@ -120,7 +82,7 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		 * the current instance
 		 */
 //		gl.glTranslatef(0.0f, 0.0f, (float)(-1.0 * multi));
-		gl.glTranslatef(-5.0f, 0.0f, (float)(-15));
+		gl.glTranslatef(-5.0f, 5.0f, (float)(-15));
 		
 		for (int y=0; y<height; y++) {
 			int x=0;
@@ -138,7 +100,9 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 			gl.glTranslatef(-(float)(x * radius*2), -(float)(radius*2), 0.0f);
 		}
 		
-//		System.out.println("drew a frame with player at " + markedX + ", " + markedY);
+		//debug output
+		System.out.println("drew a frame with player at " + markedX + ", " + markedY);
+//		System.out.println("drew a frame at " + System.currentTimeMillis());
 	}
 
 	/**
@@ -190,7 +154,7 @@ public class SurfaceViewClass extends GLSurfaceView implements Renderer {
 		markedX = x;
 		markedY = y;
 		
-		this.requestRender();
+//		this.requestRender();
 	}
 
 	public void highlightSpot(int loc, int type) {

@@ -11,5 +11,6 @@
 <CheckBoxPreference android:summary="Bats relocate to a new (random) room after moving the player." android:title="Mobile bats" android:defaultValue="false" android:key="mobileBats"></CheckBoxPreference>
 <ListPreference android:key="difficulty" android:title="Difficulty" android:summary="Game difficulty." android:entries="@array/entries" android:entryValues="@array/entryValues"></ListPreference>
 
+<EditTextPreference android:inputType="phone" android:dialogTitle="Max arrows" android:title="Max arrows" android:defaultValue="5" android:summary="Number of arrows you start the game with (1 to 10)" android:key="maxArrows"></EditTextPreference>
 </PreferenceCategory>
 </PreferenceScreen>

@@ -19,7 +19,6 @@ public class Circle {
 //								1.0f, 1.0f, 0.0f 	//Top Right
 //												};
 	private float points[] = new float[360*3];
-	private double radius;
 	
 	/**
 	 * The Circle constructor.
@@ -33,8 +32,6 @@ public class Circle {
 		byteBuf.order(ByteOrder.nativeOrder());
 		vertexBuffer = byteBuf.asFloatBuffer();
 //		vertexBuffer.put(vertices);
-		
-		this.radius = radius;
 		
 		int i = 0;
 		
